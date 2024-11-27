@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class BinarySearchTree<T extends Comparable<T>> {
     private Node<T> raiz;
+    
     public BinarySearchTree(){
         this.raiz=null;
     }
@@ -43,12 +44,12 @@ public class BinarySearchTree<T extends Comparable<T>> {
             if(novoNo.dado.compareTo(raiz.dado)<0){
                 System.out.println("Esquerda");
                 leia.nextLine();// pausa
-                raiz.esquerda = add(raiz.esquerda,novoNo,true);
+                raiz.esquerda = add(raiz.esquerda,novoNo,verbose);
             }
             else{
                 System.out.println("Direita");
                  leia.nextLine();
-                raiz.direita = add(raiz.direita,novoNo,true);
+                raiz.direita = add(raiz.direita,novoNo,verbose);
              }
         
         return raiz;
@@ -60,7 +61,7 @@ public class BinarySearchTree<T extends Comparable<T>> {
     }
     private void preOrder(Node<T> raiz){
         if(raiz!=null){
-            System.out.println(raiz.dado +"|");
+            System.out.print(raiz.dado +"|");
             preOrder(raiz.esquerda);
             preOrder(raiz.direita);
         }// fim if 
@@ -71,19 +72,37 @@ public class BinarySearchTree<T extends Comparable<T>> {
     private void inOrder(Node<T> raiz){
         if(raiz!=null){
             inOrder(raiz.esquerda);
-            System.out.println(raiz.dado +"|");
+            System.out.print(raiz.dado +"|");
             inOrder(raiz.direita);
         }// fim if 
-    }// fim inOrder
+    }// fim preOrder
+   
+    
     public void postOrder(){
-        inOrder(this.raiz);
+        postOrder(this.raiz);
     }
     private void postOrder(Node<T> raiz){
         if(raiz!=null){
             postOrder(raiz.esquerda);
             postOrder(raiz.direita);
-            System.out.println(raiz.dado +"|");
+            System.out.print(raiz.dado +"|");
         }// fim if 
     }// fim inOrder
+    
+    // busca
+    public T search(T dadoBusca){
+        return search(this.raiz, dadoBusca);
+    }
+    private T search(Node<T> raiz, T dadoBusca){
+        if(raiz==null)
+            return null;
+        if(raiz.dado.equals(dadoBusca))
+            return raiz.dado;
+        if(dadoBusca.compareTo(raiz.dado)<0)
+            return search(raiz.esquerda,dadoBusca);
+        else
+            return search(raiz.direita,dadoBusca);
+       
+    }
     
 }
