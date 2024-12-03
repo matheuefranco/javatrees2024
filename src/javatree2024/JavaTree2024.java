@@ -1,8 +1,29 @@
 package javatree2024;
 
+import java.io.*;
 import java.util.Scanner;
 
 public class JavaTree2024 {
+
+     private static void carregaArquivo(BinarySearchTree<Aluno> tree, int numRegistros){
+     String csvFile = "dados.csv";
+        String line = "";
+        String[] leitura = null;
+        int i=0;
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            while ((line = br.readLine()) != null && i<numRegistros) {
+                Aluno aluno = new Aluno();
+                leitura = line.split(",");
+                aluno.setId(Integer.parseInt(leitura[0]));
+                aluno.setNome(leitura[1]);
+                tree.add(aluno); 
+                i++;
+            }// fim percurso no arquivo
+        } catch (IOException e) {
+            e.printStackTrace();
+            
+        }
+    }
 
     static int menu(){
         Scanner leia = new Scanner(System.in);
@@ -10,6 +31,8 @@ public class JavaTree2024 {
         System.out.println("1-Inserir");
         System.out.println("2-Percursos");
         System.out.println("3-Buscar");
+        System.out.println("4-Carregar");
+        System.out.println("5-Remover");
         System.out.println("0-Sair");
         int op = leia.nextInt();
         return op;
@@ -45,6 +68,16 @@ public class JavaTree2024 {
                             System.out.println("Id nao encontrado");
                         else
                             System.out.println("Nome:"+alBusca.getNome());
+                        System.out.println("Comparacoes:"+bst.comparacoes);
+                break;
+                case 4: System.out.println("Qtde de registros para carregar:");
+                        int qtdReg = leia.nextInt();
+                        carregaArquivo(bst, qtdReg);
+                break;
+                 case 5: System.out.print("ID para remover:");
+                        Aluno alRemover = new Aluno();
+                        alRemover.setId(leia.nextInt());
+                        bst.remove(alRemover);
                 break;
                 case 0: System.out.println("Saindo");
                 break;

@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class BinarySearchTree<T extends Comparable<T>> {
     private Node<T> raiz;
+    public int comparacoes;
     
     public BinarySearchTree(){
         this.raiz=null;
@@ -19,6 +20,8 @@ public class BinarySearchTree<T extends Comparable<T>> {
         Node novoNo = new Node(novoDado);
         if(verbose==true)
             this.raiz = add(raiz, novoNo, verbose); 
+        else
+            this.raiz = add(raiz,novoNo);
     }
     
     private Node<T> add(Node<T> raiz, Node<T> novoNo){
@@ -91,9 +94,11 @@ public class BinarySearchTree<T extends Comparable<T>> {
     
     // busca
     public T search(T dadoBusca){
+        comparacoes=0;
         return search(this.raiz, dadoBusca);
     }
     private T search(Node<T> raiz, T dadoBusca){
+        comparacoes++;
         if(raiz==null)
             return null;
         if(raiz.dado.equals(dadoBusca))
@@ -104,5 +109,48 @@ public class BinarySearchTree<T extends Comparable<T>> {
             return search(raiz.direita,dadoBusca);
        
     }
+    
+     private Node<T> removeNode(Node<T> raiz) {
+    	Node<T> nova, pai;
+        if(raiz.direita==null){
+        	nova = raiz.esquerda;
+        	return nova;
+    	}
+    	// percorrer até achar o menor da direita
+    	pai = raiz; nova= raiz.direita;
+        while(nova.esquerda!=null){
+                    	pai=nova;
+                    	nova = nova.esquerda;
+        	}// fim while
+    	
+    	// reorganizar os ponteiros
+        	if(pai!=raiz){
+                    	pai.esquerda = nova.direita;
+                    	nova.direita = raiz.direita;
+        	}
+                nova.esquerda = raiz.esquerda;
+        System.out.println("Retornando nova raiz:"+nova.dado);
+        	return nova;}
+ 
+public void remove(T dadoRemover) {
+	raiz = remove(this.raiz, dadoRemover);
+}
+ 
+private Node<T> remove(Node<T> raiz, T dadoRemover) {
+	    	if(raiz==null){
+                System.out.println("Não encontrado - :(");
+                    	return null;    	}
+        	if(raiz.dado.equals(dadoRemover)){
+                System.out.println("Encontrado - removendo");
+                    	return removeNode(raiz);    	}
+        	if(dadoRemover.compareTo(raiz.dado)<0)
+                    	raiz.esquerda = remove(raiz.esquerda,dadoRemover);
+        	else
+        		raiz.direita = remove(raiz.direita,dadoRemover);
+        	
+    	return raiz;
+}// fim buscaRemove
+
+
     
 }
