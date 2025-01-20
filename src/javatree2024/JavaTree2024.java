@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class JavaTree2024 {
 
-     private static void carregaArquivo(BinarySearchTree<Aluno> tree, int numRegistros){
+     private static void carregaArquivo(AvlTree<Aluno> tree, int numRegistros){
      String csvFile = "dados.csv";
         String line = "";
         String[] leitura = null;
@@ -33,13 +33,14 @@ public class JavaTree2024 {
         System.out.println("3-Buscar");
         System.out.println("4-Carregar");
         System.out.println("5-Remover");
+        System.out.println("6-Altura da arvore");
         System.out.println("0-Sair");
         int op = leia.nextInt();
         return op;
     }
     
     public static void main(String[] args) {
-        BinarySearchTree<Aluno> bst = new BinarySearchTree();
+        AvlTree<Aluno> avl = new AvlTree();
         Scanner leia = new Scanner(System.in);
         int op;
         do{
@@ -51,34 +52,37 @@ public class JavaTree2024 {
                         leia.nextLine();
                         System.out.print("Nome:");
                         al.setNome(leia.nextLine());
-                        bst.add(al,true);
+                        avl.add(al,true);
                 break;
                 case 2: System.out.println("Pre ordem");
-                        bst.preOrder();
+                        avl.preOrder();
                         System.out.println("Em ordem");
-                        bst.inOrder();
+                        avl.inOrder();
                         System.out.println("Pos ordem");
-                        bst.postOrder();
+                        avl.postOrder();
                 break;
                 case 3: System.out.print("ID para buscar:");
                         Aluno alBusca = new Aluno();
                         alBusca.setId(leia.nextInt());
-                        alBusca = bst.search(alBusca);
+                        alBusca = avl.search(alBusca);
                         if(alBusca==null)
                             System.out.println("Id nao encontrado");
                         else
                             System.out.println("Nome:"+alBusca.getNome());
-                        System.out.println("Comparacoes:"+bst.comparacoes);
+                        System.out.println("Comparacoes:"+avl.comparacoes);
                 break;
                 case 4: System.out.println("Qtde de registros para carregar:");
                         int qtdReg = leia.nextInt();
-                        carregaArquivo(bst, qtdReg);
+                        carregaArquivo(avl, qtdReg);
                 break;
                  case 5: System.out.print("ID para remover:");
                         Aluno alRemover = new Aluno();
                         alRemover.setId(leia.nextInt());
-                        bst.remove(alRemover);
+                        avl.remove(alRemover);
                 break;
+                 case 6: System.out.println("Altura:"+
+                         avl.mostraAlturaArvore());
+                 break;
                 case 0: System.out.println("Saindo");
                 break;
             }// fim switch
