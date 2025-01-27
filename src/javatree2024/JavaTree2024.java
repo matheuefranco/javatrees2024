@@ -52,7 +52,7 @@ public class JavaTree2024 {
                         leia.nextLine();
                         System.out.print("Nome:");
                         al.setNome(leia.nextLine());
-                        avl.add(al,true);
+                        avl.add(al,false);
                 break;
                 case 2: System.out.println("Pre ordem");
                         avl.preOrder();

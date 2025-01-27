@@ -25,6 +25,29 @@ public class AvlTree<T extends Comparable<T>> {
             return altEsq +1;
     }
     
+    public Node<T> rotacaoDir(Node<T> raiz){
+        Node<T> novaRaiz = raiz.esquerda;
+        raiz.esquerda = novaRaiz.direita;
+        novaRaiz.direita = raiz;
+        raiz.fb = altura(raiz.direita) 
+                - altura(raiz.esquerda);
+        novaRaiz.fb = altura(novaRaiz.direita) -
+                      altura(novaRaiz.esquerda);
+        return novaRaiz;
+    }
+    
+    public Node<T> rotacaoEsq(Node<T> raiz){
+        Node<T> novaRaiz = raiz.direita;
+        raiz.direita = novaRaiz.esquerda;
+        novaRaiz.esquerda = raiz;
+        //atualizar os fatores de balanceamento
+        raiz.fb = altura(raiz.direita) - 
+                  altura(raiz.esquerda);
+        novaRaiz.fb = altura(novaRaiz.direita)-
+                      altura(novaRaiz.esquerda);
+        return novaRaiz;
+    }
+    
     public void add(T novoDado){
         Node novoNo = new Node(novoDado);
         this.raiz = add(raiz, novoNo); 
@@ -47,6 +70,13 @@ public class AvlTree<T extends Comparable<T>> {
         else
                 raiz.direita = add(raiz.direita,novoNo);
         
+        raiz.fb = altura(raiz.direita) 
+                - altura(raiz.esquerda);
+        switch(raiz.fb){
+            case -2: raiz = 
+                            rotacaoDir(raiz);
+                            System.out.println("Rotacao direita");
+        }
         return raiz;
     }// fim add
     
