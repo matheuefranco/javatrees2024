@@ -73,9 +73,24 @@ public class AvlTree<T extends Comparable<T>> {
         raiz.fb = altura(raiz.direita) 
                 - altura(raiz.esquerda);
         switch(raiz.fb){
-            case -2: raiz = 
-                            rotacaoDir(raiz);
-                            System.out.println("Rotacao direita");
+            case -2: // direita 
+                if(raiz.esquerda.fb<=0){ 
+                    //simples
+                    raiz =  rotacaoDir(raiz);
+                }else{
+                    //dupla
+                    raiz.esquerda = rotacaoEsq(raiz.esquerda);
+                    raiz = rotacaoDir(raiz);
+                }
+                break;
+                case 2: // esquerda
+                if(raiz.direita.fb>=0){ 
+                 raiz = rotacaoEsq(raiz); // simples
+                }else{
+               // dupla
+               raiz.direita = rotacaoDir(raiz.direita);
+               raiz = rotacaoEsq(raiz);
+            }                
         }
         return raiz;
     }// fim add
@@ -192,7 +207,29 @@ private Node<T> remove(Node<T> raiz, T dadoRemover) {
         	else
         		raiz.direita = remove(raiz.direita,dadoRemover);
         	
-    	return raiz;
+        raiz.fb = altura(raiz.direita) 
+                - altura(raiz.esquerda);
+        switch(raiz.fb){
+            case -2: // direita 
+                if(raiz.esquerda.fb<=0){ 
+                    //simples
+                    raiz =  rotacaoDir(raiz);
+                }else{
+                    //dupla
+                    raiz.esquerda = rotacaoEsq(raiz.esquerda);
+                    raiz = rotacaoDir(raiz);
+                }
+                break;
+                case 2: // esquerda
+                if(raiz.direita.fb>=0){ 
+                 raiz = rotacaoEsq(raiz); // simples
+                }else{
+               // dupla
+               raiz.direita = rotacaoDir(raiz.direita);
+               raiz = rotacaoEsq(raiz);
+            }                
+        }// fim switch
+                return raiz;
 }// fim buscaRemove
 
 
